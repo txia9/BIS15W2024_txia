@@ -1,0 +1,57 @@
+---
+title: "RMarkdown practice Tian"
+output: html_document
+date: "2024-01-11"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Title
+### Title
+#### Title
+
+## Links
+[BIS 15L Webpage](https://jmledford3115.github.io/datascibiol/)
+
+## Email
+[Tian Xia](ttxia@ucdavis.edu)
+
+## Practice
+1. 
+addition
+```{r}
+2+2
+```
+
+subtraction
+```{r}
+4-2
+```
+
+multiplication
+```{r}
+4*2
+```
+
+division
+```{r}
+4/2
+```
+
+2.  
+```{r}
+#install.packages("tidyverse")
+library("tidyverse")
+```
+
+```{r}
+ggplot(mtcars, aes(x = factor(cyl))) +
+    geom_bar()
+```
+
+
+
+
+
