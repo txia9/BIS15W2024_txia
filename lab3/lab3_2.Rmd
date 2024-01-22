@@ -62,7 +62,7 @@ hot_springs$scientist <- as.factor(hot_springs$scientist)
 
 ```{r}
 levels(hot_springs$scientist)
-levels(hot_springs$spring) #null means spring is still a character not character, unable to find the factors.  
+levels(hot_springs$spring) #null means spring is still a character not factor, unable to find the factors.  
 ```
 
 ## Practice
