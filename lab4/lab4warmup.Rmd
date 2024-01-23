@@ -1,0 +1,56 @@
+---
+title: "practice1"
+output: html_document
+date: "2024-01-23"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##1. Load the libraries
+```{r}
+library("tidyverse")
+library("palmerpenguins")
+```
+
+```{r}
+install.packages("palmerpenguins")
+```
+
+##2. Dimensions of 'penguins'
+```{r}
+dim(penguins)
+```
+
+```{r}
+penguins
+```
+##3. names of the variables
+```{r}
+names(penguins)
+```
+or
+```{r}
+glimpse(penguins)
+```
+##4. how many individuals are on each island
+
+```{r}
+penguins <- penguins
+```
+
+```{r}
+table(penguins$island)
+```
+or
+```{r}
+summary(penguins$island)
+```
+
+##4. count mean of body weight of all animals
+```{r}
+body_mass <- c(penguins$body_mass_g)
+mean(body_mass, na.rm = T)
+```
+the result is not ture. 
