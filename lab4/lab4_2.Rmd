@@ -53,7 +53,8 @@ filter(fish, length >= 350)
 
 Using the `!` operator allows for the exclusion of specific observations.
 ```{r}
-filter(fish, lakeid != "AL")
+not_al <- filter(fish, lakeid != "AL")
+not_al
 ```
 
 ## Using `filter()` with multiple observations  
