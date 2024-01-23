@@ -33,6 +33,9 @@ sleep
 ```
 
 3. What are the dimensions of this data frame (variables and observations)? How do you know? Please show the *code* that you used to determine this below.  
+
+There are 11 variables and 83 observations. 
+
 ```{r}
 dim(sleep)
 ```
@@ -42,7 +45,13 @@ dim(sleep)
 is.na(sleep)
 ```
 
-Yes, there is NA, all the "true" show in results are represented as "NA" in the data frame. 
+Yes, there is NA, all the "true" from the code above show in results are represented as "NA" in the data frame. 
+
+```{r}
+str(sleep)
+```
+
+Also, there is NA in the variable "conservation" and most of the numeric values.  
 
 5. Show a list of the column names is this data frame.
 ```{r}

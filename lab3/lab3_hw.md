@@ -1,7 +1,7 @@
 ---
 title: "Lab 3 Homework"
 author: "Tian Xia"
-date: "2024-01-21"
+date: "2024-01-22"
 output:
   html_document: 
     theme: spacelab
@@ -157,7 +157,7 @@ sleep
 ## 30           cd         1.9       0.4          NA 22.10      NA  899.995
 ## 31           cd         2.7       0.1          NA 21.35      NA  800.000
 ## 32           lc         6.2       1.5          NA 17.80 0.32500   85.000
-## "rval"           lc         6.3       0.6          NA 17.70 0.01227    2.625
+## 33           lc         6.3       0.6          NA 17.70 0.01227    2.625
 ## 34         <NA>         8.0       1.9   1.5000000 16.00 1.32000   62.000
 ## 35           vu         9.5       0.9          NA 14.50      NA    1.670
 ## 36           vu         3.3        NA          NA 20.70 5.71200 6654.000
@@ -211,6 +211,9 @@ sleep
 ```
 
 3. What are the dimensions of this data frame (variables and observations)? How do you know? Please show the *code* that you used to determine this below.  
+
+There are 11 variables and 83 observations. 
+
 
 ```r
 dim(sleep)
@@ -397,7 +400,29 @@ is.na(sleep)
 ## [83,] FALSE   FALSE  FALSE
 ```
 
-Yes, there is NA, all the "true" show in results are represented as "NA" in the data frame. 
+Yes, there is NA, all the "true" from the code above show in results are represented as "NA" in the data frame. 
+
+
+```r
+str(sleep)
+```
+
+```
+## 'data.frame':	83 obs. of  11 variables:
+##  $ name        : chr  "Cheetah" "Owl monkey" "Mountain beaver" "Greater short-tailed shrew" ...
+##  $ genus       : chr  "Acinonyx" "Aotus" "Aplodontia" "Blarina" ...
+##  $ vore        : chr  "carni" "omni" "herbi" "omni" ...
+##  $ order       : chr  "Carnivora" "Primates" "Rodentia" "Soricomorpha" ...
+##  $ conservation: chr  "lc" NA "nt" "lc" ...
+##  $ sleep_total : num  12.1 17 14.4 14.9 4 14.4 8.7 7 10.1 3 ...
+##  $ sleep_rem   : num  NA 1.8 2.4 2.3 0.7 2.2 1.4 NA 2.9 NA ...
+##  $ sleep_cycle : num  NA NA NA 0.133 0.667 ...
+##  $ awake       : num  11.9 7 9.6 9.1 20 9.6 15.3 17 13.9 21 ...
+##  $ brainwt     : num  NA 0.0155 NA 0.00029 0.423 NA NA NA 0.07 0.0982 ...
+##  $ bodywt      : num  50 0.48 1.35 0.019 600 ...
+```
+
+Also, there is NA in the variable "conservation" and most of the numeric values.  
 
 5. Show a list of the column names is this data frame.
 
