@@ -1,11 +1,11 @@
 ---
 title: "Lab 4 Homework"
-author: "Please Add Your Name Here"
+author: "Tian Xia"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  html_document: 
     theme: spacelab
-    toc: no
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
@@ -31,32 +31,67 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 
 **1. Load the data into a new object called `homerange`.**
 ```{r}
-
+homerage <- read.csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.**  
 ```{r}
+dim(homerage)
+```
 
+```{r}
+names(homerage)
+```
+
+```{r}
+####class(homerage)
+```
+
+```{r}
+summary(homerage)
 ```
 
 **3. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 ```{r}
+homerage$taxon <- as.factor(homerage$taxon)
+```
 
+```{r}
+homerage$order <- as.factor(homerage$order)
+```
+
+```{r}
+str(homerage$taxon, na.rm=T)
+```
+
+```{r}
+str(homerage$order, na.rm=T)
 ```
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
-```{r}
 
+```{r}
+names(homerage)
+```
+
+```{r}
+homerage_new <- rename(homerage, common_name="common.name")
+homerage_new
+```
+
+```{r}
+taxa <- data.frame(select(homerage_new, "taxon", "common_name", "class", "order", "family", "genus", "species"))
+taxa
 ```
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
 ```{r}
-
+table(homerage_new$taxon)
 ```
 
 **6. The species in `homerange` are also classified into trophic guilds. How many species are represented in each trophic guild.**  
 ```{r}
-
+table(homerage_new$species)
 ```
 
 **7. Make two new data frames, one which is restricted to carnivores and another that is restricted to herbivores.**  
