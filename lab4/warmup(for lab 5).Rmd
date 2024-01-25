@@ -1,0 +1,40 @@
+---
+title: "lab5 warmup"
+output: html_document
+date: "2024-01-25"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##1. Load the data
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+getwd()
+```
+
+```{r}
+fish <- read_csv("data/Gaeta_etal_CLC_data.csv")
+```
+
+##2. Transform to only include lakeid and length
+```{r}
+fishlength <- select(fish, "lakeid", "length")
+fishlength
+```
+
+##3. filter the fish for lake BO
+```{r}
+subfish <- filter(fish, lakeid == "BO")
+subfish
+```
+
+##4. calculate the mean length of BO fish
+```{r}
+mean(subfish$length)
+```
+

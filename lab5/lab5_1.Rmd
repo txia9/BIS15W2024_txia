@@ -18,6 +18,7 @@ output:
 ## Load the tidyverse
 ```{r message=FALSE, warning=FALSE}
 library("tidyverse")
+library("janitor")
 ```
 
 ## Load the data
@@ -40,8 +41,10 @@ mammals <- rename(mammals, genus="Genus", wean_mass="wean mass", max_life= "max.
 
 Do you remember the easier way?
 ```{r}
-
+mammals <- clean_names(mammals)
+summary(mammals)
 ```
+
 
 ## Review
 In the warm-up, we practiced extracting observations of interest. For example, we can pull out all of the fish from a specific lake.  
@@ -57,7 +60,7 @@ levels(fish$lakeid)
 
 Now we can pull out any state of interest.  
 ```{r}
-
+filter(fish, lakeid =="LJ")
 ```
 
 ## Using `filter()` on multiple conditions
@@ -66,13 +69,13 @@ You can also use `filter()` to extract data based on multiple conditions. Below 
 filter(fish, lakeid == "AL" & length > 350)
 ```
 
-Notice that the `|` operator generates a different result.
+Notice that the `|` operator generates a different result. "|" stands for "or"
 ```{r}
 filter(fish, lakeid == "AL" | length > 350)
 ```
 
 Rules:  
-+ `filter(condition1, condition2)` will return rows where both conditions are met.  
++ `filter(condition1, condition2)` will return rows where both conditions are met. By default the "," means "&".   
 + `filter(condition1, !condition2)` will return all rows where condition one is true but condition 2 is not.  
 + `filter(condition1 | condition2)` will return rows where condition 1 or condition 2 is met.  
 + `filter(xor(condition1, condition2)` will return all rows where only one of the conditions is met, and not when both conditions are met.  
@@ -85,18 +88,23 @@ filter(fish, length > 400, (scalelength > 11 | radii_length_mm > 8))
 ## Practice  
 1.  From the `mammals` data, filter all members of the family Bovidae with a mass greater than 450000.
 ```{r}
-
+filter(mammals, family == "Bovidae", mass > 45000)
 ```
 
 2. From the `mammals` data, build a data frame that compares `mass`, `gestation`, and `newborn` among the primate genera `Lophocebus`, `Erythrocebus`, and `Macaca`. Among these genera, which species has the smallest `newborn` mass?
 ```{r}
-
+new_variable <- select(mammals, "order", "genus", "mass", "gestation", "newborn")
 ```
 
 ```{r}
-
+new_data <- filter(new_variable, order == "Primates")
 ```
 
+```{r}
+new_data2 <- filter(new_data, genus %in% c("Lophocebus", "Erythrocebus", "Macaca"))
+```
+
+This is crazy, we need a way to connect the commands
 ## That's it! Let's take a break and then move on to part 2!  
 
 -->[Home](https://jmledford3115.github.io/datascibiol/)  
