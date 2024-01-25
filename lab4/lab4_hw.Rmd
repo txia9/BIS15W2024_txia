@@ -31,56 +31,60 @@ Data: http://datadryad.org/resource/doi:10.5061/dryad.q5j65/1
 
 **1. Load the data into a new object called `homerange`.**
 ```{r}
-homerage <- read.csv("data/Tamburelloetal_HomeRangeDatabase.csv")
+homerange <- read.csv("data/Tamburelloetal_HomeRangeDatabase.csv")
 ```
 
 **2. Explore the data. Show the dimensions, column names, classes for each variable, and a statistical summary. Keep these as separate code chunks.**  
 ```{r}
-dim(homerage)
+dim(homerange)
 ```
 
 ```{r}
-names(homerage)
+names(homerange)
 ```
 
 ```{r}
-glimpse(homerage)
+glimpse(homerange)
 ```
 
 ```{r}
-summary(homerage)
+summary(homerange)
 ```
 
 **3. Change the class of the variables `taxon` and `order` to factors and display their levels.**  
 ```{r}
-homerage$taxon <- as.factor(homerage$taxon)
+homerange$taxon <- as.factor(homerange$taxon)
 ```
 
 ```{r}
-homerage$order <- as.factor(homerage$order)
+glimpse(homerange)
 ```
 
 ```{r}
-levels(homerage$taxon)
+homerange$order <- as.factor(homerange$order)
 ```
 
 ```{r}
-levels(homerage$order)
+levels(homerange$taxon)
+```
+
+```{r}
+levels(homerange$order)
 ```
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
 
 ```{r}
-names(homerage)
+names(homerange)
 ```
 
 ```{r}
-homerage_new <- rename(homerage, common_name="common.name")
-homerage_new
+homerange_new <- rename(homerange, common_name="common.name")
+homerange_new
 ```
 
 ```{r}
-taxa <- data.frame(select(homerage_new, "taxon", "common_name", "class", "order", "family", "genus", "species"))
+taxa <- select(homerange_new, "taxon", "common_name", "class", "order", "family", "genus", "species")
 taxa
 ```
 
