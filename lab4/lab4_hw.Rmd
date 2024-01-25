@@ -44,7 +44,7 @@ names(homerage)
 ```
 
 ```{r}
-####class(homerage)
+glimpse(homerage)
 ```
 
 ```{r}
@@ -61,11 +61,11 @@ homerage$order <- as.factor(homerage$order)
 ```
 
 ```{r}
-str(homerage$taxon, na.rm=T)
+levels(homerage$taxon)
 ```
 
 ```{r}
-str(homerage$order, na.rm=T)
+levels(homerage$order)
 ```
 
 **4. What taxa are represented in the `homerange` data frame? Make a new data frame `taxa` that is restricted to taxon, common name, class, order, family, genus, species.**  
