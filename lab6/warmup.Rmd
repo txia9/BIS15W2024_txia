@@ -1,0 +1,78 @@
+---
+title: "warmup"
+output: html_document
+date: "2024-01-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+##0. load the libraries
+```{r}
+library("tidyverse")
+library("janitor")
+```
+
+```{r}
+getwd()
+```
+##1. Read bison csv
+```{r}
+bison <- read.csv("data/bison.csv")
+```
+
+```{r}
+dim(bison)  ##or glimpse
+```
+
+```{r}
+str(bison)
+```
+## Select a few variables. 
+```{r}
+names(bison)
+```
+
+```{r}
+bison2 <- select(bison, data_code, animal_sex, animal_weight, animal_yob)
+```
+
+##4. Animals born between 1980-1990
+```{r}
+bison3 <- filter(bison2, animal_yob between(1980, 1990)) ####use between instead of %in%, need some correction here
+```
+### or we can do
+```{r}
+bison4 <- filter(bison2, animal_yob >= 1980 & animal_yob <= 1990) 
+```
+
+##5. seperate F and M
+```{r}
+bison_F <- filter(bison3, animal_sex == "F")
+```
+
+```{r}
+bison_M <- filter(bison3, animal_sex == "M")
+```
+
+```{r}
+bison_F4 <- filter(bison4, animal_sex =="F")
+```
+
+```{r}
+bison_M4 <- filter(bison4, animal_sex =="M")
+```
+
+##6. mean M and F
+```{r}
+names(bison_F)
+```
+
+```{r}
+mean(bison_F4$animal_weight)
+```
+
+```{r}
+mean(bison_M4$animal_weight)
+```
+
