@@ -80,12 +80,10 @@ names(homerange)
 
 ```{r}
 homerange_new <- rename(homerange, common_name="common.name")
-homerange_new
 ```
 
 ```{r}
 taxa <- select(homerange_new, "taxon", "common_name", "class", "order", "family", "genus", "species")
-taxa
 ```
 
 **5. The variable `taxon` identifies the common name groups of the species represented in `homerange`. Make a table the shows the counts for each of these `taxon`.**  
@@ -120,20 +118,23 @@ Herbivores have a larger average of "mean.hra.m2".
 
 **9. Make a new dataframe `owls` that is limited to the mean mass, log10 mass, family, genus, and species of owls in the database. Which is the smallest owl? What is its common name? Do a little bit of searching online to see what you can learn about this species and provide a link below** 
 ```{r}
-homerange %>% 
+owl <- homerange %>% 
   select("mean.mass.g", "log10.hra", "family", "genus", "species", "common.name", "order") %>% 
   filter(order == "strigiformes") %>% 
   arrange(mean.mass.g)
 ```
+
 The smallest owl is Glaucidium passerinum. Its common name is Eurasian pygmy owl. For more information, please see the link below: https://animaldiversity.org/accounts/Glaucidium_passerinum/  
 
 
 **10. As measured by the data, which bird species has the largest homerange? Show all of your work, please. Look this species up online and tell me about it!**.  
 ```{r}
-homerange %>% 
+bird <- homerange %>% 
   select("mean.hra.m2", "taxon", "common.name", "family", "genus", "species", "order") %>% 
-  arrange("mean.hra.m2")
+  filter(taxon == "birds") %>% 
+  arrange(desc(mean.hra.m2))
 ```
 
-## Push your final code to GitHub!
-Please be sure that you check the `keep md` file in the knit preferences.   
+The cheriway has the largest homerange. Please see the link below for more information: https://animaldiversity.org/accounts/Caracara_cheriway/  
+
+##Please be sure that you check the `keep md` file in the knit preferences.   
