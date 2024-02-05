@@ -1,0 +1,153 @@
+---
+title: "review_lec_1-7"
+output: html_document
+date: "2024-02-05"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R and RStudio  
+R is an open source, **scripting** language. RStudio is a [GUI](https://www.computerhope.com/jargon/g/gui.htm) that is used to interact with R. You need to have R installed in order for RStudio to work.
+
+## Look for working directory (which folder you are working in)
+```{r}
+getwd()
+```
+
+## Arithmetic 
+### gets object
+```{r}
+x <- c(1,2,3,4,5)
+```
+
+### mean, median, and standard deviation
+```{r}
+mean(x)
+median(x)
+sd(x)
+```
+
+## R markdown
+RMarkdown allows us to embed code in annotated chunks, show the results of analyses, and display graphical output all in one file. It is a great way of making a report which can be conveniently output to html or pdf.
+
+## Titles and Text
+Have a look at the format of this document; titles are indicated by a `#`. Larger numbers of `#'s` reduce the size of the font. Text with no `#'s` is smallest and not bold. To emphasize words, you can use _italics_ or **bold**. A line break is indicated by two spaces.  
+
+## Links
+I often add links to my RMarkdown files. For a website, include the page name in `[]` and the website address in `()`. [BIS 15L Webpage](https://jmledford3115.github.io/datascibiol/).    
+
+Email is similar, but you need to include `mailto:` in the parentheses. Here is my email: [Joel Ledford](jmledford@ucdavis.edu).  
+
+## 'classes of data' 
+1. numeric, 2. integer, 3. character, 4. logical, 5. complex.
+```{r}
+my_numeric <- 42
+my_integer <- 2L #adding an L automatically denotes an integer #only whole numbers
+my_character <- "universe"
+my_logical <- FALSE
+my_complex <- 2+4i
+```
+
+clarify or specific one type of data
+```{r}
+my_integer <- 
+  as.integer(my_numeric) #create a new object specified as an integer
+```
+
+```{r}
+is.integer(my_integer) #is my_numeric an integer?
+```
+
+missing data
+```{r}
+is.na(my_missing)
+```
+
+```{r}
+anyNA(my_missing)
+```
+
+## Data Structures
+In addition to classes of data, R organizes data in different ways. Data structures include vectors, lists, matrices, data frames, and factors. 
+
+vectors  
+```{r}
+numeric_vector <- c(1,2,3,4,5)
+character_vector <- c("monday","tuesday","wednesday")
+my_vector_sequence <- c(1:100)
+```
+
+pull out elements from one vector
+```{r}
+my_vector_sequence[3] # pull out the third element in this vector
+my_vector_sequence<=3 #logical results (T/F)
+my_vector_sequence[my_vector_sequence<=3] #pull out the elements
+```
+
+```{r}
+[1,2] #pull out [row, column]
+```
+
+data matrix  
+lab2_2 make data matrix example as harry potter
+
+data frame
+a data frame is similar to a spreadsheet. A data frame can store data of many different classes.  
+```{r}
+data.frame()
+```
+
+```{r}
+names() #pull out column names
+```
+
+```{r}
+dim()#dimension of data frame
+```
+
+```{r}
+str() #dimension of data frame
+glimpse() 
+```
+
+```{r}
+data_frame$one_of_variables
+```
+
+```{r}
+rbind() #row bind
+cbind() #column bind
+```
+
+save as 'csv' file
+```{r}
+write.csv(hbirds, "hbirds_data.csv", row.names = FALSE)
+```
+
+read 'csv' from folder
+```{r}
+getwd()
+```
+
+```{r}
+read.csv("lab4/data/file_name")
+```
+
+```{r}
+class() #what is the class of data
+as.factor() #from other class to factor 
+levels() # group the same factors
+#null means object is still a character not factor, unable to find the factors. 
+```
+
+
+
+
+
+
+
+
+
+
