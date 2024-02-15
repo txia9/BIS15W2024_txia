@@ -102,7 +102,7 @@ sydneybeaches_sep2 %>%
   select(site, "2013") %>% 
   arrange(desc(`2013`))
 ```
-###try longer data as other option
+
 10. Please complete the class project survey at: [BIS 15L Group Project](https://forms.gle/H2j69Z3ZtbLH3efW6)
 
 ## Push your final code to GitHub!
