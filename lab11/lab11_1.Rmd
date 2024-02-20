@@ -40,17 +40,29 @@ Bar plots count the number of observations in a categorical variable. What is th
 
 `geom_col`
 ```{r}
-
+life_history %>% 
+  count(order, sort=T) %>% 
+  ggplot(aes(x=order, y=n))+
+  geom_col()+
+  coord_flip()
 ```
 
 `geom_bar`
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x=order))+
+  geom_bar()+
+  coord_flip()
 ```
 
 Remember that ggplot build plots in layers. These layers can significantly improve the appearance of the plot. What if we wanted a bar plot of the mean mass for each order? Would we use `geom_bar` or `geom_col`?  
 ```{r}
-
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=order, y=mean_mass))+
+  geom_col()+
+  coord_flip()
 ```
 
 There are a few problems here. First, the y-axis is in scientific notation. We can fix this by adjusting the options for the session.
@@ -60,28 +72,52 @@ options(scipen=999)#cancels scientific notation for the session
 
 Next, the y-axis is not on a log scale. We can fix this by adding `scale_y_log10()`.
 ```{r}
-
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=order, y=mean_mass))+
+  geom_col()+
+  coord_flip()+
+  scale_y_log10()
 ```
 
 Lastly, we can adjust the x-axis labels to make them more readable. We do this using `reorder`.
 ```{r}
-
+life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=reorder(order, mean_mass), y=mean_mass))+ #this allow us to order the x-axis by mean_mass. 
+  geom_col()+
+  coord_flip()+
+  scale_y_log10()
 ```
 
 ## Scatterplots
 Scatter plots allow for comparisons of two continuous variables. Make a scatterplot below that compares gestation time and weaning mass.
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x=gestation, y=wean_mass))+
+  geom_jitter(na.rm = T)+ #prevents overplotting
+  scale_y_log10()
 ```
 
 ## Boxplots
 Box plots help us visualize a range of values. So, on the x-axis we typically have something categorical and the y-axis is the range. Let's make a box plot that compares mass across taxonomic orders.
 ```{r}
-
+life_history %>% 
+  ggplot(aes(x=order, y=mass))+
+  geom_boxplot(na.rm = T)+
+  coord_flip()+
+  scale_y_log10()
 ```
 
 ```{r}
-
+life_history %>% 
+  filter(order!="Cetacea") %>% # necessary to make a comment that we remove the outlayer
+  ggplot(aes(x=order, y=mass))+
+  geom_boxplot(na.rm = T)+
+  coord_flip()+
+  scale_y_log10()
 ```
 
 ## Aesthetics: Labels
@@ -94,7 +130,10 @@ elephants <- read_csv("data/elephantsMF.csv") %>% clean_names()
 
 Make a plot that compares age and height of elephants.
 ```{r}
-
+elephants %>% 
+  ggplot(aes(x=age, y=height))+
+  geom_point()+
+  geom_smooth(method = lm, se=F)
 ```
 
 The plot looks clean, but it is incomplete. A reader unfamiliar with the data might have a difficult time interpreting the labels. To add custom labels, we use the `labs` command.
@@ -105,12 +144,19 @@ elephants %>%
   geom_smooth(method=lm, se=F)+
   labs(title="Elephant Age vs. Height",
        x="Age",
-       y="Height")
+       y="Height(cm)")
 ```
 
 We can improve the plot further by adjusting the size and face of the text. We do this using `theme()`. The `rel()` option changes the relative size of the title to keep things consistent. Adding `hjust` allows control of title position.
 ```{r}
-
+elephants %>% 
+  ggplot(aes(x=age, y=height)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=F)+ #standard error shown as shadow in the plot.  
+  labs(title="Elephant Age vs. Height",
+       x="Age",
+       y="Height(cm)")+
+  theme(plot.title=element_text(size = rel(1.5),hjust = 0.5)) #position of the plot. 
 ```
 
 ## Other Aesthetics
