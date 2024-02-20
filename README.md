@@ -8,4 +8,5 @@ Welcome! This repository with all my hard-workings as a BIS 15L student at UC Da
 ## **Sentence for Today**  
 _What the world needs more than anything else is Practical Idealists._ --Talben Shahar
 
-
+## **For Bry**
+My homework is stored in each lab folder for lectures. 
