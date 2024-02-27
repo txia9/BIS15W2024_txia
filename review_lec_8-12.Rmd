@@ -1,0 +1,271 @@
+---
+title: "Review lec 8-12"
+output: html_document
+date: "2024-02-27"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Lecture 8. how to treat NAs. use 'across()'.  
+define NAs. 
+```{r}
+#penguins %>% 
+  filter(is.na(colomn_name))
+```
+
+use the function 'across()'.   
+```{r}
+#penguins %>%
+  summarize(across(c(species, island, sex), n_distinct))
+
+#penguins %>% 
+  group_by(sex) %>% 
+  summarize(across(contains("mm"), mean, na.rm=T))
+  
+#penguins %>%
+  summarize(across(!c(species, island, sex, year), 
+                   mean, na.rm=T))
+  
+#penguins %>%
+  summarise(across(starts_with("bill"), n_distinct))
+```
+
+replace value with NA.   
+```{r}
+#life_history %>% 
+  mutate(newborn_new= ifelse(newborn == -999.00, NA, newborn)) # consider -999.00 as NA, others keep as newborn value. 
+
+#life_history <- 
+  read_csv("data/mammal_lifehistories_v3.csv", na=c("NA", " ", ".", "-999", "-999.00", "not measured")) %>% clean_names() 
+  #you need to know how the NA's are represented in the data. 
+
+#life_history <- 
+  life_history %>% 
+  mutate(max_life=na_if(max_life, 0)) #mutate 0 into NA in max_life column. 
+  
+#naniar package
+#life_history %>% 
+  replace_with_na(replace = list(newborn = "not measured", 
+                                 weaning= -999, 
+                                 wean_mass= -999, 
+                                 afr= -999, 
+                                 max_life= 0, 
+                                 litter_size= -999, 
+                                 gestation= -999, 
+                                 mass= -999)) %>% 
+  miss_var_summary(order=T)# function in naniar to define NAs in dataset. 
+  
+  or #naniar::miss_var_summary(data_set_name)
+```
+
+Lecture 9. tidy and untidy data. 'pivot_longer' and 'pivot_wider', seperate name.    
+
+Pivot_longer
+Rules:  
++ `pivot_longer`(cols, names_to, values_to)
++ `cols` - Columns to pivot to longer format
++ `names_to` - Name of the new column; it will contain the column names of gathered columns as values
++ `values_to` - Name of the new column; it will contain the data stored in the values of gathered columns
+```{r}
+#heartrate %>% 
+  pivot_longer(-patient, #patient will not move
+               names_to = "drug", #make a new column called "drug"
+               values_to="heartrate" #values moved to a new column called "heartrate"
+               )
+
+#seperate names from the same column
+#qpcr_untidy %>% 
+  pivot_longer(
+    exp1_rep1:exp3_rep3,
+    names_to= c("experiment", "replicate"),
+    names_sep="_",
+    values_to="mRNA_expression"
+  )
+  
+or #heartrate2 %>% 
+  separate(patient, into= c("patient", "sex"), sep = "_")
+```
+9_1 for 3 solutions to select data column.  
+
+Pivot_wider
+```{r}
+#tb_data %>% 
+  pivot_wider(names_from = "key", #the observations under key will become new columns
+              values_from = "value") #the values under value will be moved to the new columns
+```
+
+Lecture 10. ggplot2. box, scatter, bar plots.  
+
+scatter plot--dot plots. 
+```{r}
+#ggplot(data=homerange, #specify the data
+       mapping=aes(x=log10.mass, y=log10.hra))+ #map the aesthetics
+  geom_point()+ #add the plot type
+    or geom_jitter(na.rm = T)#add some random noise
+  geom_smooth(method=lm, se=T, na.rm = T) #add a regression line (general base model)#se=T, add shade, se=F, without shade. 
+```
+
+bar plot-- compare.   
+```{r}
+#homerange %>% 
+  ggplot(aes(x=trophic.guild)) + 
+  geom_bar() #good for counts
+
+#homerange %>% 
+  filter(family=="salmonidae") %>%
+  select(common.name, log10.mass) %>% 
+  ggplot(aes(y=common.name, x=log10.mass))+ #notice the switch in x and y
+  geom_col()
+  
+or#homerange %>% 
+  filter(family=="salmonidae") %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_bar(stat="identity")
+```
+
+flip x and y-axis. rank the least 10.  
+```{r}
+#homerange %>% 
+  filter(class== "mammalia") %>% 
+  top_n(-10,log10.mass) %>% 
+  ggplot(aes(x=common.name, y=log10.mass))+
+  geom_col()+
+  coord_flip() 
+```
+
+box plot -- show the range of each variable.  
+```{r}
+#homerange %>% 
+  ggplot(aes(x = class, y = log10.mass)) +
+  geom_boxplot() #the line in the middle is median
+```
+
+Lecture 11. ggplot2 aesthetic.   
+adjust scientific notation.  
+```{r}
+#options(scipen=999)#cancels scientific notation for the session
+```
+
+bar plot aesthetics.  
+```{r}
+#life_history %>% 
+  group_by(order) %>% 
+  summarise(mean_mass=mean(mass, na.rm = T)) %>% 
+  ggplot(aes(x=reorder(order, mean_mass), y=mean_mass))+ #this allow us to order the x-axis by mean_mass. 
+  geom_col()+
+  coord_flip()+
+  scale_y_log10() #log10 of each value to make plot more readable. 
+
+#homerange %>% 
+  ggplot(aes(x=taxon, fill=trophic.guild))+
+  geom_bar(position="dodge")+ #show each observation side by side
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) #adjust angle for x-axis. 
+  scale_y_continuous(labels = scales::percent)+ #scale all bar to percentage
+  labs(title="Observation by Taxon", 
+       x="Taxon")
+```
+
+general aesthetic. adding average line, adding label, adjust position of plot on screen.    
+```{r}
+#elephants %>% 
+  ggplot(aes(x=age, y=height)) + 
+  geom_point() + 
+  geom_smooth(method=lm, se=F)+ #standard error shown as shadow in the plot.  
+  labs(title="Elephant Age vs. Height",
+       x="Age", #if 'NULL', no label for x. 
+       y="Height(cm)", 
+       fill="whatever")+
+  theme(plot.title=element_text(size = rel(1.5),hjust = 0.5)) #position of the plot. 
+```
+
+'color' in scatter plot = 'fill' in bar and box plot.  
+```{r}
+#p+
+  geom_point(aes(color=thermoregulation, shape=thermoregulation), size=1.5) 
+```
+
+box plot aesthetics. 'group'='fill', but without color.   
+```{r}
+#homerange %>% 
+  ggplot(aes(x = class, y = log10.mass, group=taxon, fill=taxon)) +
+  geom_boxplot(alpha=0.4) #alpha makes the plot be able to see thru
+```
+
+Lecture 12. line plot, histogram, density plot. color aesthetics.  
+line plot -- continuous line.  
+```{r}
+#deserts %>% 
+  filter(species_id=="DM"|species_id=="DS") %>% 
+  mutate(year=as.factor(year)) %>% #not as.numeric because we are not going to add years as numbers together. necessary for year. 
+  group_by(year, species_id) %>% 
+  summarise(n=n(), .groups = 'keep') %>% 
+  ggplot(aes(x=year, y=n, group=species_id, color=species_id))+
+  geom_line()+
+  geom_point(shape=2)+ #you can experiment with shapes, 1, 2, 3 are diff shapes
+  theme(axis.text.x=element_text(angle=30, hjust = 1))+
+  labs(title = "number of samples for species DM & DS",
+       x="year",
+       y="n")
+```
+
+histogram -- attached bar plot.  
+```{r}
+#homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_histogram(color = "black", fill = "linen", bins=10)+ #color=edge color, fill=inside shade, bins=wideth of bar
+  labs(title = "Distribution of Body Mass")
+```
+
+density plot -- continuous line but shade inside.  
+```{r}
+#homerange %>% 
+  ggplot(aes(x = log10.mass)) +
+  geom_density(fill="deepskyblue4", alpha  =0.4, color = "black")+ #alpha is the transparency
+  labs(title = "Distribution of Body Mass")
+```
+
+conbine histogram and density plot with R build-in color.  
+```{r}
+#grDevices::colors()
+
+#homerange %>% 
+  ggplot(aes(x=log10.mass)) +
+  geom_histogram(aes(y = after_stat(density)), fill = "deepskyblue4", alpha = 0.4, color = "black")+ #just copy paste after_stat
+  geom_density(color = "red")+
+  labs(title = "Distribution of Body Mass")
+```
+
+category variables from gtools library.  
+```{r}
+#homerange %>% 
+  mutate(range_category=case_when(log10.hra<3.65 ~ "very small",
+                                  log10.hra>=3.65 &log10.hra<4.59 ~ "small",
+                                  log10.hra>=4.59 &log10.hra<6.02~ "medium",
+                                  log10.hra>=6.02 ~ "large")) %>% 
+  ggplot(aes(x=range_category, fill=class))+
+  geom_bar(position = "dodge", alpha=0.6, color="black")
+```
+
+general aesthetics.  
+12_2 for ggplot themes. eg.'theme_classic'.   
+```{r}
+#legend.position for position of title
+#p+theme_linedraw()+
+  theme(legend.position = "bottom", # or top/left/right
+        axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(title = "Observations by Taxon in Homerange Data",
+       x = NULL, #remove the label from the x-axis
+       y= "n",
+       fill= "Trophic Guild")
+```
+
+
+
+
+
+
+
+
+

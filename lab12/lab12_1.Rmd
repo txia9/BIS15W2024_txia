@@ -28,7 +28,7 @@ output:
 `RColorBrewer` and `paletteer` are helpful in selecting palettes of color that work with your data. Please install these now, we will work with them in part 2 of today's lab.
 ```{r, eval=FALSE, echo=TRUE}
 #install.packages("RColorBrewer")
-#install.packages("paletteer")
+install.packages("paletteer")
 #install.packages("ggthemes")
 ```
 
@@ -249,7 +249,6 @@ homerange %>%
                                   log10.hra>=6.02 ~ "large")) %>% 
   ggplot(aes(x=range_category, fill=class))+
   geom_bar(position = "dodge", alpha=0.6, color="black")
-  
 ```
 
 3. Isolate the small `range_category` and plot the range of `log10.mass` by taxonomic class.
