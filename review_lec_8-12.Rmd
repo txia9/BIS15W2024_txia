@@ -194,6 +194,7 @@ box plot aesthetics. 'group'='fill', but without color.
 ```
 
 Lecture 12. line plot, histogram, density plot. color aesthetics.  
+
 line plot -- continuous line.  
 ```{r}
 #deserts %>% 
@@ -261,7 +262,23 @@ general aesthetics.
        fill= "Trophic Guild")
 ```
 
+```{r}
+#my_palette <- paletteer_d("ggsci::nrc_npg") #store my palette
+barplot(rep(1,6), axes=FALSE, col=my_palette) #show my palette
++`scale_colour_brewer(palette="palette_name")` is for points  
++`scale_fill_brewer()` is for fills  
+```
 
+facet -- spliting box plot.  
+```{r}
+homerange %>% 
+  ggplot(aes(x=taxon, y=log10.mass))+
+  geom_boxplot()+
+  facet_wrap(~trophic.guild)+ #split into colomn (left and right)
+  or facet_grid(trophic.guild~.)+ #split into rows(up and down)
+  or facet_grid(trophic.guild~thermoregulation)+ #a~b where a is rows and b is columns.  
+  theme(axis.text.x = element_text(angle = 60, hjust=1))
+```
 
 
 
