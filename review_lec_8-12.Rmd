@@ -254,7 +254,7 @@ general aesthetics.
 ```{r}
 #legend.position for position of title
 #p+theme_linedraw()+
-  theme(legend.position = "bottom", # or top/left/right
+  theme(legend.position = "bottom", #or top/left/right
         axis.text.x = element_text(angle = 60, hjust=1))+
   labs(title = "Observations by Taxon in Homerange Data",
        x = NULL, #remove the label from the x-axis
