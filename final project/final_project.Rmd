@@ -1,0 +1,23 @@
+---
+title: "final_project"
+output: html_document
+date: "2024-02-29"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Libraries 
+```{r}
+library("tidyverse")
+library("janitor")
+library("naniar")
+```
+
+
+Import data
+```{r}
+happiness <- read.csv("data/2022.csv") %>% clean_names()
+```
+
