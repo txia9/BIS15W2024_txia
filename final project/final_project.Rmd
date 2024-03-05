@@ -13,6 +13,7 @@ Libraries
 library("tidyverse")
 library("janitor")
 library("naniar")
+library("ggplot2")
 ```
 
 
@@ -20,4 +21,6 @@ Import data
 ```{r}
 happiness <- read.csv("data/2022.csv") %>% clean_names()
 ```
+
+Max and Min. 
 
