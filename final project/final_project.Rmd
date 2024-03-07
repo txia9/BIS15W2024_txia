@@ -22,5 +22,9 @@ Import data
 happiness <- read.csv("data/2022.csv") %>% clean_names()
 ```
 
+1. find another dataset that group the countries in happiness dataset. 
+2. use gapminder in lab12 hw. 
+3. find the explanation sheet for each of the dataset (what the colomn means in each dataset.)
+4. if possible, find a map of world, use alpha of color to show the happiness group by country
 Max and Min. 
 
