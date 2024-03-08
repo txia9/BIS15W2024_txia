@@ -8,6 +8,10 @@ date: "2024-02-29"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r}
+install.packages("naniar")
+```
+
 Libraries 
 ```{r}
 library("tidyverse")

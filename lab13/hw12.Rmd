@@ -85,6 +85,7 @@ wolves_low %>%
   select(pop, lat, long) %>% 
   summary()
 ```
+
 ```{r}
 lat2 <- c(43.82, 47.75)
 long2 <- c(-110.99, -86.82)
