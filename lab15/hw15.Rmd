@@ -109,7 +109,7 @@ blood_count %>%
 9. What are two drawbacks and two benefits of AI?
 
 10. Do you think you will use AI for coding in the future? Why or why not?
-
+Yes, I will use AI for coding in the future. It saves time for finding error in data. It also helps to reminding me the function that is good to use.  
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
