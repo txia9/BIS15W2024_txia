@@ -36,6 +36,14 @@ UC_admit <- read_csv("data/UC_admit.csv")
 glimpse(UC_admit)
 ```
 
+```{r}
+dim(UC_admit)
+```
+
+```{r}
+names(UC_admit)
+```
+
 **2. The president of UC has asked you to build a shiny app that shows admissions by ethnicity across all UC campuses. Your app should allow users to explore year, campus, and admit category as interactive variables. Use shiny dashboard and try to incorporate the aesthetics you have learned in ggplot to make the app neat and clean.**  
 ```{r}
 UC_admit <- UC_admit %>% 
@@ -67,11 +75,12 @@ server <- function(input, output, session) {
   
   output$plot <- renderPlot({
     UC_admit %>% 
+      mutate(Academic_Yr= as.factor(Academic_Yr)) %>% 
     filter(Academic_Yr==input$x & Campus==input$y & Category==input$z) %>% 
     ggplot(aes(x=reorder(Ethnicity, FilteredCountFR), y=FilteredCountFR)) + 
-      geom_col(color="black", fill="steelblue", alpha=0.75) +
+      geom_col(color="tomato3", fill="linen", alpha=0.6) +
       theme_light(base_size = 18) +
-      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))+
       labs(x = "Ethnicity", y = "Number")
   })
   
@@ -100,8 +109,8 @@ ui <- dashboardPage(
   radioButtons("y", "Select Ethnicity", choices = c("International", "Unknown", "White", "Asian", "Chicano/Latino", "American Indian", "African American"),
               selected = "International")
   ), # close the first box
-  box(title = "UC Admissions", width = 7,
-  plotOutput("plot", width = "600px", height = "500px")
+  box(title = "UC Admissions", width = 8,
+  plotOutput("plot", width = "700px", height = "600px")
   ) # close the second box
   ) # close the row
   ) # close the dashboard body
@@ -111,11 +120,12 @@ server <- function(input, output, session) {
   
   output$plot <- renderPlot({
     UC_admit %>% 
+      mutate(Academic_Yr= as.factor(Academic_Yr)) %>% 
     filter(Campus==input$x & Ethnicity==input$y & Category==input$z) %>% 
     ggplot(aes(x=Academic_Yr, y=FilteredCountFR)) + 
-      geom_col(color="black", fill="steelblue", alpha=0.75) +
+      geom_col(color="tomato3", fill="linen", alpha=0.6) +
       theme_light(base_size = 18) +
-      theme(axis.text.x = element_text(angle = 60, hjust = 1))+
+      theme(axis.text.x = element_text(angle = 45, hjust = 1))+
       labs(x = "Year", y = "Enrollment")
   })
   
