@@ -1,0 +1,25 @@
+---
+title: '2021'
+output: html_document
+date: "2024-03-09"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+library("tidyverse")
+library("janitor")
+library("naniar")
+library("ggplot2")
+```
+
+```{r}
+happy <- read.csv("data/archive/2021.csv")
+```
+
+
+
+

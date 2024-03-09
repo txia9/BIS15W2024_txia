@@ -14,21 +14,73 @@ install.packages("naniar")
 
 Libraries 
 ```{r}
+library(dplyr)
 library("tidyverse")
 library("janitor")
 library("naniar")
 library("ggplot2")
 ```
 
+##import data from 2015-2017
+```{r}
+first <- read.csv("data/older/2015.csv") %>% 
+  clean_names() %>% 
+  select(country, region, happiness_rank, happiness_score, economy_gdp_per_capita, family, health_life_expectancy, freedom, trust_government_corruption, generosity, dystopia_residual)
+```
+
+```{r}
+names(third)
+```
+
+```{r}
+second <- read.csv("data/older/2016.csv") %>% 
+  clean_names() %>% 
+  select(country, region, happiness_rank, happiness_score, economy_gdp_per_capita, family, health_life_expectancy, freedom, trust_government_corruption, generosity, dystopia_residual)
+```
+
+```{r}
+third <- read.csv("data/older/2017.csv") %>% 
+  clean_names() %>% 
+  select(country, happiness_rank, happiness_score, economy_gdp_per_capita, family, health_life_expectancy, freedom, trust_government_corruption, generosity, dystopia_residual)
+```
+
+```{r}
+happy <- bind_rows(first, second, third)
+```
 
 Import data
 ```{r}
-happiness <- read.csv("data/2022.csv") %>% clean_names()
+files <- list.files(path = "data/older", pattern = ".csv", full.names = TRUE)
+files
 ```
 
-1. find another dataset that group the countries in happiness dataset. 
-2. use gapminder in lab12 hw. 
-3. find the explanation sheet for each of the dataset (what the colomn means in each dataset.)
-4. if possible, find a map of world, use alpha of color to show the happiness group by country
-Max and Min. 
+```{r}
+happiness_list <- lapply(files, read_csv)
+```
+
+```{r}
+happiness_all <- bind_rows(happiness_list) %>% clean_names()
+happiness_all
+```
+
+
+## number of countries per region
+```{r}
+table(happiness_all$region)
+```
+
+```{r}
+summary(happiness_all)
+```
+
+##any NA in data
+```{r}
+any_na(happiness_all)
+```
+
+
+
+
+
+
 
