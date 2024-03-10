@@ -2,7 +2,9 @@
 title: "BIS15L_AI_hmwk"
 author: "Your Name"
 date: "`r Sys.Date()`"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -24,18 +26,18 @@ library(dplyr)
 ```
 
 
-1.
+1. import csv data.   
 ```{r}
 blood_count <- read_csv("data/blood_count_dataset.csv") #check the name of the csv file
 ```
 
-2. 
+2. see how the data set look like.  
 ```{r}
 glimpse(blood_count) #miss spell the function name
 
 ```
 
-3. 
+3. find out the min, mean, and max of count of red blood cell by gender.  
 ```{r}
 blood_count %>% 
   clean_names() %>% #need clean names before analyze tidy data. 
@@ -46,22 +48,22 @@ blood_count %>%
 ```
 
 
-4. 
+4. find the average of each variable for male except age.  
 ```{r}
 options(scipen = 999, digits = 2)
 
 blood_count %>% 
-  filter(Gender = "male") %>%
-  select[3:9] %>%
+  filter(Gender == "male") %>% #change '=' to '=='
+  select(3:9) %>% #change bracket to parentheses
   colMeans(na.rm = TRUE)
 
 ```
 
-5. 
+5. find the average of each variable for female except age.  
 ```{r}
-bloood_count %>% 
-  filter(Gender = "Female") />%
-  select[3:9] %>%
+blood_count %>% #miss spell object name
+  filter(Gender == "Female") %>% #miss spell pipet %>%, change '=' to '=='
+  select(3:9) %>% #change bracket to parentheses
   colMeans(na.rm = T)
 ```
 
