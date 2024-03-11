@@ -68,50 +68,50 @@ blood_count %>% #miss spell object name
 ```
 
 
-6. 
+6. make a box plot of each blood count variable by gender.  
 ```{r}
-
 blood_count %>%
-  pivot_wider(cols = [3:9], names_to = "Test", values_to = "Values") %>%
+  pivot_longer(cols = (3:9), names_to = "Test", values_to = "Values") %>% #change bracket to parentheses for cols, change pivot wider to pivot longer
   ggplot(aes(x = Gender, y = Values, fill = Gender)) +
   geom_boxplot() +
-  facet(~ Test, scales = "free") 
+  facet_wrap(~ Test, scales = "free") + #'+' needed for ggplot2
   labs(title = "Boxplot of Blood Count Tests",
        x = "Test",
        y = "Values")
-
 ```
 
-7. 
+7. add a new column to seperate age range. Bind people over 70s to 60s.   
 ```{r}
 grouped_bc <- blood_count %>%
-  change(Age_Group = case_when(
+  mutate(Age_Group = case_when( #'change' to 'mutate'
     Age >= 20 & Age <= 29 ~ "20s",
     Age >= 30 & Age <= 39 ~ "30s",
     Age >= 40 & Age <= 49 ~ "40s",
     Age >= 50 & Age <= 59 ~ "50s",
-    Age >= 60 & Age <= 70 ~ "60s")) # there were only 4 people in 70s, so I combined it with 60s
+    Age >= 60 ~ "60s")) # there were only 4 people in 70s, so I combined it with 60s, remove '& Age <= 70'
 
 head(grouped_bc)
 
 ```
 
-8. 
+8. show the blood count of each variable by age group.  
 ```{r}
-blood_count %>%
-  pivot_longer(cols = 3:9, names_to = "Test", values_to = "Values") %>%
-  ggplot(ase(x = Age_Group, y = values, fill = Age_Group)) +
+grouped_bc %>% #use new created data 
+  pivot_longer(cols = (3:9), names_to = "Test", values_to = "Values") %>% #add parentheses for function 'col()'
+  ggplot(aes(x = Age_Group, y = Values, fill = Age_Group)) + #miss spell aes, capitalize 'values'
   geom_boxplot() +
-  facet_wrap( Test, scales = "free") +  # Facet by the "Test" variable
+  facet_wrap( ~Test, scales = "free") +  # Facet by the "Test" variable, add '~' before Test
   labs(title = "Boxplot of Blood Count Tests by Age Group",
        x = "Age Group",
        y = "Values")
 
 ```
 9. What are two drawbacks and two benefits of AI?
+Drawback: having bias after trained and job displacement. 
+Benefit: efficiency and quick decision making based on data.   
 
 10. Do you think you will use AI for coding in the future? Why or why not?
-Yes, I will use AI for coding in the future. It saves time for finding error in data. It also helps to reminding me the function that is good to use.  
+Yes, I will use AI for coding in the future. It saves time for finding error in my code. It also helps to reminding me the function that is good to use.  
 
 ## Push your final code to GitHub!
 Please be sure that you check the `keep md` file in the knit preferences. 
