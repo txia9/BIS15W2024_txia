@@ -36,12 +36,39 @@ global_sharks <- read_csv("data/global-shark-attack.csv") %>% clean_names()
 
 ## Questions
 1. (2 points) Start by doing some data exploration using your preferred function(s). What is the structure of the data? Where are the missing values and how are they represented?  
+```{r}
+glimpse(global_sharks)
+```
 
+```{r}
+naniar::miss_var_summary(global_sharks)
+```
 
 2. (3 points) Are there any "hotspots" for shark incidents? Make a plot that shows the total number of incidents for the top 10 countries? Which country has the highest number of incidents?
-
+```{r}
+global_sharks %>% 
+  group_by(country) %>% 
+  count() %>% 
+  arrange(desc(n)) %>% 
+  head(10) %>% 
+  ggplot(aes(x=reorder(country, n), y=n))+
+  geom_col()+
+  labs(x="country name", y="count", title = "Incidents count of top 10 countries")+
+  coord_flip()
+```
 
 3. (3 points) Are there months of the year when incidents are more likely to occur? Make a plot that shows the total number of incidents by month. Which month has the highest number of incidents?
+```{r}
+global_sharks %>% 
+  group_by(country) %>% 
+  count() %>% 
+  arrange(desc(n)) %>% 
+  head(10) %>% 
+  ggplot(aes(x=reorder(country, n), y=n))+
+  geom_col()+
+  labs(x="country name", y="count", title = "Incidents count of top 10 countries")+
+  coord_flip()
+```
 
 
 4. (3 points) Which activity is associated with the highest number of incidents? Make a plot that compares the top 5 riskiest activities. "NA" should not be classified as an activity.

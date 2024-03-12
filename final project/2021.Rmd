@@ -8,17 +8,94 @@ date: "2024-03-09"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
+
 ```{r}
 library(dplyr)
 library("tidyverse")
 library("janitor")
 library("naniar")
 library("ggplot2")
+library("shiny")
+library(shinydashboard)
 ```
 
 ```{r}
-happy <- read.csv("data/archive/2021.csv")
+happy <- read.csv("data/archive/2021.csv") %>% clean_names()
 ```
+
+#box plot of happiness in each region  
+```{r}
+happy %>% 
+  ggplot(aes(x=regional_indicator, y=ladder_score, fill="linen"))+
+  geom_boxplot(alpha=0.4)+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+```
+
+#box plot of gdp in each region
+```{r}
+happy %>% 
+  ggplot(aes(x=regional_indicator, y=logged_gdp_per_capita, fill="linen"))+
+  geom_boxplot(alpha=0.4)+
+  theme(axis.text.x = element_text(angle = 30, hjust = 1))
+```
+
+#I am making an UI
+```{r}
+runApp("plot_iris.R")
+```
+
+#scatter plot of all comparable variable.  
+```{r}
+library(shiny)
+
+ui <- fluidPage(
+  selectInput("x", "Select X Variable", choices = c("print the wanted column name here"), selected = "one column name")
+  
+  selectInput("y", "Select Y Variable", choices = c("print wanted column name here"), selected = "one column name")
+  
+  plotOutput("plot")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    
+    ggplot(data=penguins, aes_string(x=input$x, y=input$y, color="region"))+
+      geom_point()+
+      theme_light(base_size=18)
+  
+}
+
+shinyApp(ui, server)
+```
+
+#density plot app for all numeric variable.  
+```{r}
+library(shiny)
+
+ui <- fluidPage(titlePanel("Log 10 Homerange by Taxon"),
+                selectInput("x", "Select Taxon", 
+                            choices=c("birds", "lake fishes", "lizards", "mammals", "marine fishes", "river fishes", "snakes", "tortoises", "turtles"), selected="birds"),
+                plotOutput("plot", width="600px", height="500px")
+)
+
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    homerange %>% 
+      filter(taxon==input$x) %>% 
+      ggplot(aes(x=log10.hra))+
+      geom_density(fill="steelblue", color="black", alpha=0.6)
+  })
+}
+
+shinyApp(ui, server)
+```
+
+
+
+
+
+
 
 
 

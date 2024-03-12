@@ -153,7 +153,7 @@ bar plot aesthetics.
 #life_history %>% 
   group_by(order) %>% 
   summarise(mean_mass=mean(mass, na.rm = T)) %>% 
-  ggplot(aes(x=reorder(order, mean_mass), y=mean_mass))+ #this allow us to order the x-axis by mean_mass. 
+  ggplot(aes(x=reorder(order, mean_mass), y=mean_mass))+ #this allow us to order the x-axis by mean_mass. reorder(x, y)
   geom_col()+
   coord_flip()+
   scale_y_log10() #log10 of each value to make plot more readable. 
