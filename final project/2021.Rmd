@@ -2,6 +2,7 @@
 title: '2021'
 output: html_document
 date: "2024-03-09"
+runtime: shiny
 ---
 
 ```{r setup, include=FALSE}
@@ -39,7 +40,7 @@ ui <- fluidPage(
 server <- function(input, output) {
   output$plot <- renderPlot({
     
-    ggplot(data=happy, aes_string(x=input$x, y=input$y, color="country_name"))+
+    ggplot(data=happy, aes_string(x=input$x, y=input$y))+
       geom_point()+
       theme(axis.text.x = element_text(angle = 30, hjust = 1))+
       geom_smooth(method=lm, se=F, na.rm = T)+
