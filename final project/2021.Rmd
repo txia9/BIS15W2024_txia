@@ -10,45 +10,21 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 ```{r}
-library(dplyr)
+library("dplyr")
 library("tidyverse")
 library("janitor")
 library("naniar")
 library("ggplot2")
 library("shiny")
-library(shinydashboard)
+library("shinydashboard")
 ```
 
+#Import data.   
 ```{r}
 happy <- read.csv("data/archive/2021.csv") %>% clean_names()
 ```
 
-#box plot of happiness in each region  
-```{r}
-happy %>% 
-  ggplot(aes(x=regional_indicator, y=ladder_score, fill="linen"))+
-  geom_boxplot(alpha=0.4)+
-  theme(axis.text.x = element_text(angle = 30, hjust = 1))
-```
-
-#box plot of gdp in each region
-```{r}
-happy %>% 
-  ggplot(aes(x=regional_indicator, y=logged_gdp_per_capita, fill="linen"))+
-  geom_boxplot(alpha=0.4)+
-  theme(axis.text.x = element_text(angle = 30, hjust = 1))
-```
-
-#I am making an UI
-```{r}
-runApp("plot_iris.R")
-```
-
-#scatter plot of all comparable variable.  
-```{r}
-names(happy)
-```
-
+#UI as scatter plot of all comparable variable by region.  
 ```{r}
 library(shiny)
 
@@ -75,14 +51,19 @@ server <- function(input, output) {
 shinyApp(ui, server)
 ```
 
-#each variable selected by country
+#UI of each variable selected by all Central and Eastern Europe, Western Europe, and North America and ANZ countries.   
+```{r}
+new_happy <- happy %>% 
+  filter(regional_indicator == "Central and Eastern Europe" | regional_indicator=="Western Europe" | regional_indicator=="North America and ANZ")
+```
+
 ```{r}
 library(shiny)
 
 ui <- fluidPage(
   
-  radioButtons("x", "Select Fill Variable", choices=c("regional_indicator", "ladder_score", "logged_gdp_per_capita", "social_support", "healthy_life_expectancy", "freedom_to_make_life_choices"),
-               selected="regional_indicator"),
+  radioButtons("x", "Select Fill Variable", choices=c("ladder_score", "logged_gdp_per_capita", "social_support", "healthy_life_expectancy", "freedom_to_make_life_choices"),
+               selected="ladder_score"),
   
   plotOutput("plot")
 )
@@ -90,27 +71,15 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   output$plot <- renderPlot({
     
-    ggplot(data=happy, aes_string(x="country_name", fill=input$x))+
-      geom_bar(alpha=0.8, color="black")+
+    ggplot(data=new_happy, aes_string(x="country_name", y=input$x, fill="regional_indicator"))+
+      geom_col(alpha=0.8, color="black")+
+      theme(axis.text.x = element_text(angle = 30, hjust = 1))+
       labs(x=NULL, y=NULL, fill="Country")
 })
 }
 
 shinyApp(ui, server)
 ```
-
-```{r}
-happy %>% 
-  
-  ggplot(aes(x=regional_indicator, y=ladder_score))+
-  geom_boxplot()+
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-```
-
-
-
-
-
 
 
 
